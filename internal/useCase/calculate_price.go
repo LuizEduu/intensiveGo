@@ -3,9 +3,9 @@ package useCase
 import "github.com/luizeduu/intensiveGo/internal/entity"
 
 type OrderInput struct {
-	ID    string
-	Price float64
-	Tax   float64
+	ID    string  `json:"id"`
+	Price float64 `json:"price"`
+	Tax   float64 `json:"tax"`
 }
 
 type OrderOutput struct {

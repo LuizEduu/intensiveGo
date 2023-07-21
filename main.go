@@ -1,37 +1,34 @@
 package main
 
 import (
-	"database/sql"
 	"fmt"
-	"log"
-
-	"github.com/luizeduu/intensiveGo/internal/infra/database"
-	"github.com/luizeduu/intensiveGo/internal/useCase"
-	_ "github.com/mattn/go-sqlite3"
+	"time"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "db.sqlite3")
+	/* go process()
+	go process()
+	process() */
 
-	if err != nil {
-		panic(err)
+	channel := make(chan int)
+
+	go func() {
+		for i := 0; i < 10; i++ {
+			channel <- i
+		}
+
+	}()
+
+	for j := range channel {
+		fmt.Println(j)
+		time.Sleep(time.Second)
 	}
-
-	orderRepository := database.NewOrderRepository(db)
-	calculateFinalPriceUseCase := useCase.NewCalculateFinalPriceUseCase(orderRepository)
-
-	input := useCase.OrderInput{
-		ID:    "any_id",
-		Price: 10,
-		Tax:   5,
-	}
-
-	output, err := calculateFinalPriceUseCase.Execute(input)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fmt.Println(output)
 
 }
+
+/* func process() {
+	for i := 0; i < 10; i++ {
+		fmt.Println(i)
+		time.Sleep(time.Second)
+	}
+} */
